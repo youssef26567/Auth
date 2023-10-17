@@ -1,0 +1,95 @@
+# Authentication API Documentation
+
+## Introduction
+
+This documentation outlines the functionality and usage of the authentication API built using Express, TypeScript, Prisma, MySQL, Express-Cookies, Bcrypt, and Morgan.
+
+### Features
+
+- User registration
+- User login
+- Password hashing and authentication
+- Token-based authentication using cookies
+- Logging API requests and responses using Morgan
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js installed
+- MySQL database
+- TypeScript knowledge
+
+### Installation
+
+1. Clone the repository.
+2. Install dependencies: `npm install`
+3. Configure your environment variables, including database connection details and secret keys.
+
+## Endpoints
+
+### 1. User Registration
+
+- **Endpoint**: `POST /api/register`
+- **Description**: Register a new user.
+- **Request Body**:
+
+```json
+{
+    "email":"name@gmail.com",
+  "name": "user123",
+  "password": "password123"
+}
+ response 
+ {
+  "success": true,
+  "message": "User registered successfully",
+  "data": {
+    "id": 1,
+    "name": "user123"
+  }
+}
+ 2. User Login
+Endpoint: POST /api/login
+Description: Log in a user.
+Request Body:
+{
+  "name": "user123",
+  "password": "password123"
+}
+response
+{
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "id": 1,
+    "name": "user123"
+  }
+}
+Authentication
+Token-based Authentication
+This API uses token-based authentication using cookies. When a user logs in, a session cookie is created, and the user is authenticated for subsequent requests. Logging out will destroy the session cookie.
+Error Handling
+The API returns appropriate HTTP status codes and error messages in JSON format when errors occur.
+Logging
+Morgan middleware is used to log incoming requests and outgoing responses for debugging and monitoring purposes.
+Database
+Prisma is used to interact with the MySQL database. Database schema and models are defined in the Prisma schema.
+Security
+User passwords are hashed using Bcrypt before storing them in the database.
+Environment Variables
+Ensure that you set the necessary environment variables for the database connection, secret keys, and other configurations.
+Development
+Information on how to run the API in development mode and run tests.
+Deployment
+Guidelines for deploying the authentication API in production.
+API Usage Examples
+Provide example requests and responses for the endpoints.
+Troubleshooting
+Common issues and how to resolve them.
+Support
+Contact information for getting help and reporting issues.
+Version History
+List of versions and release notes.
+License
+Information about the API's licensing.
