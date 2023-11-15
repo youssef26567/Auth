@@ -1,28 +1,37 @@
-import express from "express"
-import bodyParser from 'body-parser'
-import morgan from "morgan"
-import routes from "./routes/user"
-import cookieSession from 'cookie-session';
-import passport from 'passport'
-const app=express()
- app.use(bodyParser())
- app.use(cookieSession({
+import express from "express";
+import routes from "./routes/user";
+import cookieSession from "cookie-session";
+import rateLimit from "express-rate-limit";
+import passport from "passport";
+
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// Setup session middleware
+app.use(cookieSession({
+    name: "session",
+    keys: [process.env.SESSION_KEY1 as string, process.env.SESSION_KEY2 as string],
     maxAge: 24 * 60 * 60 * 1000, // one day in miliseconds
-    name: 'session',
-    keys: ['key1', 'key2']
+}));
+// Rate limiting to prevent abusive requests
+app.use(rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 20 // 20 requests,
 }));
 app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.json());
-app.use(morgan("dev"))
-const port=3000
-app.get("/",(req,res)=>{
+app.use("/", routes);
+
+
+
+app.get("/", (req, res) => {
     res.json({
-        message:"hello world!"
-    })
-    console.log("get responde")
-})
-app.use('/',routes)
-app.listen(port,()=>{
-    console.log('server is running')
-})
+        message: "Hello, world!",
+    });
+    console.log("GET response");
+});
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
